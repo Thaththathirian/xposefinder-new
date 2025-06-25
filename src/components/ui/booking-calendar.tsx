@@ -11,6 +11,11 @@ import { cn } from "@/lib/utils";
 // Card, Button, and Calendar components (as in your code)
 // ... (reuse your Card, Button, Calendar code from your last message) ...
 
+interface BookingData {
+  date: Date;
+  time: string;
+  // Add other properties
+}
 // --- Card Components ---
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -214,9 +219,9 @@ const API_BASE = "https://api.xposefinder.com/api/demo";
 
 const BookingCalendar: React.FC = () => {
   const [availableDates, setAvailableDates] = useState<string[]>([]);
-  const [allTimeSlots, setAllTimeSlots] = useState<string[]>([]);
-  const [timezone, setTimezone] = useState<string>("");
-  const [note, setNote] = useState<string>("");
+  // const [allTimeSlots, setAllTimeSlots] = useState<string[]>([]);
+  // const [timezone, setTimezone] = useState<string>("");
+  // const [note, setNote] = useState<string>("");
   const [date, setDate] = useState<Date | undefined>();
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
@@ -240,9 +245,9 @@ const BookingCalendar: React.FC = () => {
       .then(res => res.json())
       .then(data => {
         setAvailableDates(data.availableDates || []);
-        setAllTimeSlots(data.allTimeSlots || []);
-        setTimezone(data.timezone || "");
-        setNote(data.note || "");
+        // setAllTimeSlots(data.allTimeSlots || []);
+        // setTimezone(data.timezone || "");
+        // setNote(data.note || "");
         setLoadingDates(false);
       })
       .catch(() => {
@@ -301,7 +306,7 @@ const BookingCalendar: React.FC = () => {
       } else {
         setError(data.message || "Booking failed.");
       }
-    } catch (e) {
+    } catch {
       setError("Booking failed. Please try again.");
     } finally {
       setSubmitting(false);

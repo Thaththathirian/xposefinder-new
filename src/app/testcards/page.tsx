@@ -2,9 +2,10 @@
 
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
-import React, { useState } from "react";
+// import { useEffect, useRef } from "react";
+import React from "react";
 import GradientPathTrace from "@/components/ui/gradient-path-trace";
+import Image from "next/image";
 const CobeGlobe = dynamic(() => import("@/components/ui/cobe-globe"), { ssr: false });
 
 export default function TestCards() {
@@ -46,7 +47,7 @@ export default function TestCards() {
             </div>
             <div className="relative h-full w-full overflow-hidden">
               <div className="ml-6 mt-2 h-full w-full rounded-lg border border-neutral-200 bg-neutral-100 p-4 dark:border-neutral-700 dark:bg-neutral-800">
-                <img alt="Dashboard" loading="lazy" width="500" height="500" decoding="async" data-nimg="1" className="w-full rounded-lg object-cover" src="https://assets.aceternity.com/pro/dashboard.webp" />
+                <Image  alt="Dashboard" loading="lazy" width="500" height="500" decoding="async" data-nimg="1" className="w-full rounded-lg object-cover" src="https://assets.aceternity.com/pro/dashboard.webp" />
               </div>
             </div>
           </div>
@@ -77,7 +78,7 @@ export default function TestCards() {
             </div>
             <div className="relative h-full w-full overflow-hidden">
               <div className="ml-6 mt-2 h-full w-full rounded-lg border border-neutral-200 bg-neutral-100 p-4 dark:border-neutral-700 dark:bg-neutral-800">
-                <img alt="Dashboard" loading="lazy" width="500" height="500" decoding="async" data-nimg="1" className="w-full rounded-lg object-cover" src="https://assets.aceternity.com/pro/dashboard.webp" />
+                <Image alt="Dashboard" loading="lazy" width="500" height="500" decoding="async" data-nimg="1" className="w-full rounded-lg object-cover" src="https://assets.aceternity.com/pro/dashboard.webp" />
               </div>
             </div>
           </div>
@@ -95,7 +96,7 @@ function AnimatedCards() {
       content: (
         <div className="flex flex-col items-start justify-center px-2 font-mono text-neutral-800 dark:text-neutral-300">
           <p className="bg-transparent text-[8px]">git add .</p>
-          <p className="bg-transparent text-[8px]">git commit -m "update"</p>
+          <p className="bg-transparent text-[8px]">git commit -m &quot;update&quot;</p>
           <p className="bg-transparent text-[8px]">git push</p>
         </div>
       ),
@@ -124,14 +125,15 @@ function AnimatedCards() {
   ];
 
   // For SVG tracing animation
-  const pathRef = useRef<SVGPathElement>(null);
-  const [pathLength, setPathLength] = React.useState(0);
+  // const pathRef = useRef<SVGPathElement>(null);
+  // const [pathLength, setPathLength] = React.useState(0);
 
-  useEffect(() => {
-    if (pathRef.current) {
-      setPathLength(pathRef.current.getTotalLength());
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (pathRef.current) {
+      
+  //     setPathLength(pathRef.current.getTotalLength());
+  //   }
+  // }, []);
 
   return (
     <div className="relative z-30 mx-auto flex w-full max-w-lg flex-row items-center justify-center gap-4 p-8">

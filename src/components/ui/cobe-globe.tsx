@@ -17,8 +17,8 @@ export default function CobeGlobe({
 
   useEffect(() => {
     let globe: any;
-    let widthDpr = width * window.devicePixelRatio;
-    let heightDpr = height * window.devicePixelRatio;
+    const widthDpr = width * window.devicePixelRatio;
+    const heightDpr = height * window.devicePixelRatio;
 
     if (canvasRef.current) {
       globe = createGlobe(canvasRef.current, {

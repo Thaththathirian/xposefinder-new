@@ -52,7 +52,7 @@ export function HeroSection() {
             } else {
                 setError(data.message || 'Submission failed.');
             }
-        } catch (err) {
+        } catch {
             setError('Submission failed.');
         } finally {
             setSubmitting(false);
@@ -200,7 +200,7 @@ export function HeroSection() {
                                 </div>
                                 <p className="text-xs text-muted-foreground">
                                     By submitting, you agree to our privacy policy.<br />
-                                    We'll never share your information.
+                                    We&apos;ll never share your information.
                                 </p>
                                 {error && <div className="text-destructive text-sm">{error}</div>}
                                 {response && (

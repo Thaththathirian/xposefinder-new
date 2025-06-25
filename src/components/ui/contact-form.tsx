@@ -3,19 +3,19 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
 import { 
   Mail, 
   Phone, 
-  User, 
-  MessageSquare, 
-  Building, 
-  Send,
+  // User, 
+  // MessageSquare, 
+  // Building, 
+  // Send,
   CheckCircle,
-  LoaderCircle,
-  ArrowRight,
-  Sparkles
+  // LoaderCircle,
+  // ArrowRight,
+  // Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import BookingCalendar from "./booking-calendar"; 
@@ -35,97 +35,97 @@ interface ContactFormProps {
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
-export function ContactForm({ onSubmit, className }: ContactFormProps) {
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    message: ""
-  });
+export function ContactForm({ className }: ContactFormProps) {
+  // const [formData, setFormData] = useState<ContactFormData>({
+  //   name: "",
+  //   email: "",
+  //   company: "",
+  //   phone: "",
+  //   message: ""
+  // });
   
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  // const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<FormStatus>("idle");
   const [submitMessage, setSubmitMessage] = useState("");
 
-  const handleInputChange = (field: keyof ContactFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: "" }));
-    }
-  };
+  // const handleInputChange = (field: keyof ContactFormData, value: string) => {
+  //   setFormData(prev => ({ ...prev, [field]: value }));
+  //   if (errors[field]) {
+  //     setErrors(prev => ({ ...prev, [field]: "" }));
+  //   }
+  // };
 
-  const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {};
+  // const validateForm = (): boolean => {
+  //   const newErrors: Record<string, string> = {};
     
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
+  //   if (!formData.name.trim()) {
+  //     newErrors.name = "Name is required";
+  //   }
     
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
-    }
+  //   if (!formData.email.trim()) {
+  //     newErrors.email = "Email is required";
+  //   } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+  //     newErrors.email = "Please enter a valid email address";
+  //   }
     
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = "Message must be at least 10 characters";
-    }
+  //   if (!formData.message.trim()) {
+  //     newErrors.message = "Message is required";
+  //   } else if (formData.message.trim().length < 10) {
+  //     newErrors.message = "Message must be at least 10 characters";
+  //   }
     
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0;
+  // };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
     
-    if (!validateForm()) return;
+  //   if (!validateForm()) return;
     
-    setStatus("loading");
-    setSubmitMessage("");
+  //   setStatus("loading");
+  //   setSubmitMessage("");
     
-    try {
-      if (onSubmit) {
-        const result = await onSubmit(formData);
-        if (result.success) {
-          setStatus("success");
-          setSubmitMessage("Thank you! Your message has been sent successfully.");
-          setFormData({
-            name: "",
-            email: "",
-            company: "",
-            phone: "",
-            message: ""
-          });
-        } else {
-          setStatus("error");
-          setSubmitMessage(result.error || "Something went wrong. Please try again.");
-        }
-      } else {
-        // Default success simulation
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setStatus("success");
-        setSubmitMessage("Thank you! Your message has been sent successfully.");
-        setFormData({
-          name: "",
-          email: "",
-          company: "",
-          phone: "",
-          message: ""
-        });
-      }
-    } catch {
-      setStatus("error");
-      setSubmitMessage("An error occurred. Please try again.");
-    }
-  };
+  //   try {
+  //     if (onSubmit) {
+  //       const result = await onSubmit(formData);
+  //       if (result.success) {
+  //         setStatus("success");
+  //         setSubmitMessage("Thank you! Your message has been sent successfully.");
+  //         setFormData({
+  //           name: "",
+  //           email: "",
+  //           company: "",
+  //           phone: "",
+  //           message: ""
+  //         });
+  //       } else {
+  //         setStatus("error");
+  //         setSubmitMessage(result.error || "Something went wrong. Please try again.");
+  //       }
+  //     } else {
+  //       // Default success simulation
+  //       await new Promise(resolve => setTimeout(resolve, 2000));
+  //       setStatus("success");
+  //       setSubmitMessage("Thank you! Your message has been sent successfully.");
+  //       setFormData({
+  //         name: "",
+  //         email: "",
+  //         company: "",
+  //         phone: "",
+  //         message: ""
+  //       });
+  //     }
+  //   } catch {
+  //     setStatus("error");
+  //     setSubmitMessage("An error occurred. Please try again.");
+  //   }
+  // };
 
   const resetForm = () => {
     setStatus("idle");
     setSubmitMessage("");
-    setErrors({});
+    // setErrors({});
   };
 
   const fadeInUp = {
