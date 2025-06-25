@@ -92,7 +92,7 @@ export function Navbar() {
                                     ))}
                                 </ul>
                             </div>
-                            <div className="flex w-full items-center flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                            {/* <div className="flex w-full items-center flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <ModeToggle />
                                 <Button
                                     asChild
@@ -119,7 +119,7 @@ export function Navbar() {
                                         <span>Get Started</span>
                                     </Link>
                                 </Button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

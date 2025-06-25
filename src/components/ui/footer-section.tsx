@@ -20,9 +20,9 @@ interface FooterProps {
   newsletterDescription?: string
   quickLinks?: Array<{ label: string; href: string }>
   contactInfo?: {
-    address: string
-    city: string
-    phone: string
+    // address: string
+    // city: string
+    // phone: string
     email: string
   }
   socialLinks?: Array<{ platform: string; href: string }>
@@ -42,16 +42,16 @@ function Footer({
     { label: "Contact", href: "#" },
   ],
   contactInfo = {
-    address: "123 Innovation Street",
-    city: "Tech City, TC 12345",
-    phone: "(123) 456-7890",
-    email: "hello@techcorp.com",
+    // address: "123 Innovation Street",
+    // city: "Tech City, TC 12345",
+    // phone: "(123) 456-7890",
+    email: "contact@xposefinder.com",
   },
   socialLinks = [
-    { platform: "Facebook", href: "#" },
-    { platform: "Twitter", href: "#" },
-    { platform: "Instagram", href: "#" },
-    { platform: "LinkedIn", href: "#" },
+    { platform: "Facebook", href: "https://www.facebook.com/people/Xposefinder/61577905194709/" },
+    { platform: "Twitter", href: "https://x.com/xposefinder" },
+    { platform: "Instagram", href: "https://www.instagram.com/xposefinder/" },
+    { platform: "LinkedIn", href: "https://www.linkedin.com/company/XposeFinder" },
   ],
   showThemeToggle = true,
 }: FooterProps) {
@@ -142,7 +142,7 @@ function Footer({
           <div>
             <h3 className="mb-6 text-lg font-semibold">Contact Us</h3>
             <div className="space-y-4">
-              <div className="flex items-start space-x-3">
+              {/* <div className="flex items-start space-x-3">
                 <MapPin className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
                 <div className="text-sm text-muted-foreground">
                   <p>{contactInfo.address}</p>
@@ -152,7 +152,7 @@ function Footer({
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-primary flex-shrink-0" />
                 <p className="text-sm text-muted-foreground">{contactInfo.phone}</p>
-              </div>
+              </div> */}
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-primary flex-shrink-0" />
                 <p className="text-sm text-muted-foreground">{contactInfo.email}</p>
@@ -208,7 +208,7 @@ function Footer({
         {/* Bottom Section */}
         <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t pt-8 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © 2024 {companyName}. All rights reserved.
+            © {new Date().getFullYear()} {companyName}. All rights reserved.
           </p>
           <nav className="flex flex-wrap gap-6 text-sm">
             <a href="#" className="text-muted-foreground transition-colors hover:text-primary">

@@ -91,7 +91,8 @@ function BentoGrid({ items = itemsSample }: BentoGridProps) {
                                 : "opacity-0 group-hover:opacity-100"
                         } transition-opacity duration-300`}
                     >
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[length:4px_4px]" />
+                        <div className="absolute inset-0 bg-purple-600/5 dark:bg-white/5" />
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(147,51,234,0.08)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[length:4px_4px]" />
                     </div>
 
                     <div className="relative flex flex-col space-y-3">
@@ -102,7 +103,7 @@ function BentoGrid({ items = itemsSample }: BentoGridProps) {
                         </div>
 
                         <div className="space-y-2">
-                            <h3 className="font-medium text-gray-900 dark:text-gray-100 tracking-tight md:text-[15px] lg:text-[16px]">
+                            <h3 className="font-medium text-gray-900 dark:text-gray-100 tracking-tight md:text-lg lg:text-xl">
                                 {item.title}
                                 <span className="ml-2 text-xs text-gray-500 dark:text-gray-400 font-normal">
                                     {item.meta}
@@ -112,7 +113,7 @@ function BentoGrid({ items = itemsSample }: BentoGridProps) {
                                 {item.description}
                             </p>
                             {item.items && (
-                                <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-gray-700 dark:text-gray-200">
+                                <ul className="list-disc pl-5 mt-2 space-y-1 text-md text-gray-700 dark:text-gray-200">
                                     {item.items.map((li, idx) => (
                                         <li key={idx}>{li}</li>
                                     ))}
@@ -148,4 +149,3 @@ function BentoGrid({ items = itemsSample }: BentoGridProps) {
 }
 
 export { BentoGrid }
- 

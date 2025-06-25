@@ -108,7 +108,7 @@ export function HeroSection() {
                             >
                                         <Button
                                             size="lg"
-                                    className="rounded-xl px-5 text-base"
+                                    className="rounded-xl px-5 text-base cursor-pointer"
                                     onClick={() => setShowEmailModal(true)}
                                 >
                                             <span className="text-nowrap">

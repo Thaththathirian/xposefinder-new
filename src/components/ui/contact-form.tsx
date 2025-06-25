@@ -200,7 +200,7 @@ export function ContactForm({ className }: ContactFormProps) {
       </div>
 
       <motion.div 
-        className="relative z-10 max-w-4xl mx-auto px-6"
+        className="relative z-10 max-w-6xl mx-auto px-6"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
@@ -215,9 +215,9 @@ export function ContactForm({ className }: ContactFormProps) {
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight"
             variants={fadeInUp}
           >
-            <span className="text-foreground">Get in </span>
+            <span className="text-foreground">Book a </span>
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Touch
+              Demo
             </span>
           </motion.h1>
           
@@ -294,11 +294,11 @@ export function ContactForm({ className }: ContactFormProps) {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <p className="text-foreground font-medium">hello@company.com</p>
+                    <p className="text-foreground font-medium">contact@xposefinder.com</p>
                   </div>
                 </motion.div>
 
-                <motion.div 
+                {/* <motion.div 
                   className="flex items-center gap-3 p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-colors"
                   whileHover={{ scale: 1.02 }}
                 >
@@ -309,7 +309,7 @@ export function ContactForm({ className }: ContactFormProps) {
                     <p className="text-sm text-muted-foreground">Phone</p>
                     <p className="text-foreground font-medium">+1 (555) 123-4567</p>
                   </div>
-                </motion.div>
+                </motion.div> */}
               </div>
             </div>
 
