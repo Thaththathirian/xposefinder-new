@@ -1,0 +1,68 @@
+"use client";
+
+import { ScanSearch, ShieldAlert, Wrench } from "lucide-react";
+import { EvervaultCard, Icon } from "@/components/ui/evervault-card";
+
+const steps = [
+  {
+    icon: <ScanSearch className="h-8 w-8 text-primary" />,
+    title: "Search",
+    description: "Enter your domain or email to scan billions of records instantly.",
+    area: "md:[grid-area:1/1/2/5]",
+  },
+  {
+    icon: <ShieldAlert className="h-8 w-8 text-primary" />,
+    title: "Detect",
+    description: "Get instant alerts about any exposed data with detailed breach information.",
+    area: "md:[grid-area:1/5/2/9]",
+  },
+  {
+    icon: <Wrench className="h-8 w-8 text-primary" />,
+    title: "Fix",
+    description: "Take immediate action with our automated remediation tools.",
+    area: "md:[grid-area:1/9/2/13]",
+  },
+];
+
+export function HowItWorks() {
+  return (
+    <section className="py-20">
+      <div className="container mx-auto px-4">
+        <div className="mb-12 text-center">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight">
+            <span className="text-foreground">How</span> <span className="text-primary">Xposefinder Works</span>
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+            <span className="text-xl text-muted-foreground">Our powerful platform makes it easy to find and fix data exposures before they become problems.</span>
+          </p>
+        </div>
+            <div className="flex flex-col md:flex-row justify-center items-center gap-12 mb-12">
+              {steps.map((step, index) => (
+                <div
+                  key={index}
+                  className="relative flex flex-col items-center justify-center border border-black/[0.2] dark:border-white/[0.2] max-w-xs w-full p-6 h-[26rem]  bg-transparent"
+                >
+                  {/* Corner icons */}
+                  <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
+                  <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
+                  <Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
+                  <Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
+
+                  {/* Card title in EvervaultCard */}
+                  <EvervaultCard text={
+                    <div className="flex flex-col items-center justify-center gap-4 py-6">
+                      <div>{step.icon}</div>
+                      <h3 className="text-xl md:text-2xl font-bold text-center text-foreground">{step.title}</h3>
+                    </div>
+                  } />
+                  {/* Description */}
+                  <h2 className="dark:text-white text-black mt-2 text-center text-base font-light">
+                    {step.description}
+                  </h2>
+                </div>
+              ))}
+            </div>
+      </div>
+    </section>
+  );
+} 
