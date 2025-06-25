@@ -111,7 +111,7 @@ export function HeroSection() {
                                     className="rounded-xl px-5 text-base cursor-pointer"
                                     onClick={() => setShowEmailModal(true)}
                                 >
-                                            <span className="text-nowrap">
+                                            <span className="text-nowrap text-white">
                                                 Get Free Report
                                             </span>
                                         </Button>
@@ -153,15 +153,15 @@ export function HeroSection() {
                                 />
                                 <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-6xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1">
                             <Image
-                                        className="bg-background aspect-15/8 relative hidden rounded-2xl dark:block"
-                                        src="https://tailark.com//_next/image?url=%2Fmail2.png&w=3840&q=75"
+                                        className="bg-background aspect-15/7 relative  rounded-2xl "
+                                        src="./cover.png"
                                         alt="app screen"
-                                width={2700}
+                                width={2000}
                                 height={1440}
                                 priority
                                 unoptimized
                                     />
-                            <Image
+                            {/* <Image
                                         className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
                                         src="https://tailark.com/_next/image?url=%2Fmail2-light.png&w=3840&q=75"
                                         alt="app screen"
@@ -169,7 +169,7 @@ export function HeroSection() {
                                 height={1440}
                                 priority
                                 unoptimized
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                         </AnimatedGroup>
@@ -214,7 +214,7 @@ export function HeroSection() {
                                         <span className="text-green-600 font-semibold text-base">Report sent</span>
                                     </motion.div>
                                 )}
-                                <Button type="submit" className="w-full" disabled={submitting}>
+                                <Button type="submit" className="w-full text-white" disabled={submitting}>
                                     {submitting ? 'Submitting...' : 'Submit'}
                                 </Button>
                             </form>

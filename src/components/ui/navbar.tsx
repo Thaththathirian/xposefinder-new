@@ -1,155 +1,157 @@
 "use client";
 
-import React from 'react'
-import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { ModeToggle } from './mode-toggle';
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+// import { ModeToggle } from "./mode-toggle";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const menuItems = [
-    { name: 'Features', href: '#features' },
-    { name: 'Solution', href: '#solution' },
-    { name: 'Pricing', href: '#pricing' },
-    { name: 'About', href: '#about' },
-]
+  { name: "Our Concept", href: "#how-xposefinder-works" },
+  { name: "Features", href: "#features" },
+  { name: "Use cases", href: "#usecases" },
+  { name: "FAQ", href: "#faq" },
+  { name: "Contact", href: "#contact" },
+];
 
-function handleSmoothScroll(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-    if (href.startsWith('#')) {
-        e.preventDefault();
-        const el = document.querySelector(href);
-        if (el) {
-            const y = el.getBoundingClientRect().top + window.pageYOffset - 80; // adjust for navbar height
-            window.scrollTo({ top: y, behavior: 'smooth' });
-        }
+function handleSmoothScroll(
+  e: React.MouseEvent<HTMLAnchorElement>,
+  href: string
+) {
+  if (href.startsWith("#")) {
+    e.preventDefault();
+    const el = document.querySelector(href);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 80; // adjust for navbar height
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
+  }
 }
 
 export function Navbar() {
-    const [menuState, setMenuState] = React.useState(false)
-    const [isScrolled, setIsScrolled] = React.useState(false)
+  const [menuState, setMenuState] = React.useState(false);
+  const [isScrolled, setIsScrolled] = React.useState(false);
 
-    React.useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50)
-        }
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
-    return (
-        <header>
-            <nav
-                data-state={menuState && 'active'}
-                className="fixed z-20 w-full px-2 group">
-                <div className={cn('mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12', isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5')}>
-                    <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
-                        <div className="flex w-full justify-between lg:w-auto">
-                            <Link
-                                href="/"
-                                aria-label="home"
-                                className="flex items-center space-x-2">
-                                <Logo />
-                            </Link>
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  return (
+    <header>
+      <nav
+        data-state={menuState && "active"}
+        className="fixed z-20 w-full px-2 group"
+      >
+        <div
+          className={cn(
+            "mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12",
+            isScrolled &&
+              "bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5"
+          )}
+        >
+          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
+            <div className="flex w-full justify-between lg:w-auto">
+              <Link
+                href="/"
+                aria-label="home"
+                className="flex items-center space-x-2"
+              >
+                <Logo />
+              </Link>
 
-                            <button
-                                onClick={() => setMenuState(!menuState)}
-                                aria-label={menuState == true ? 'Close Menu' : 'Open Menu'}
-                                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden">
-                                <Menu className="in-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
-                                <X className="group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
-                            </button>
-                        </div>
+              <button
+                onClick={() => setMenuState(!menuState)}
+                aria-label={menuState == true ? "Close Menu" : "Open Menu"}
+                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
+              >
+                <Menu className="in-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
+                <X className="group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
+              </button>
+            </div>
 
-                        <div className="absolute inset-0 m-auto hidden size-fit lg:block">
-                            <ul className="flex gap-8 text-sm">
-                                {menuItems.map((item, index) => (
-                                    <li key={index}>
-                                        <a
-                                            href={item.href}
-                                            onClick={e => handleSmoothScroll(e, item.href)}
-                                            className="text-muted-foreground hover:text-accent-foreground block duration-150 cursor-pointer"
-                                        >
-                                            <span>{item.name}</span>
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+            <div className="absolute inset-0 m-auto hidden size-fit lg:block">
+              <ul className="flex gap-8 text-sm">
+                {menuItems.map((item, index) => (
+                  <li key={index}>
+                    <a
+                      href={item.href}
+                      onClick={(e) => handleSmoothScroll(e, item.href)}
+                      className="text-muted-foreground hover:text-accent-foreground block duration-150 cursor-pointer"
+                    >
+                      <span>{item.name}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-                        <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
-                            <div className="lg:hidden">
-                                <ul className="space-y-6 text-base">
-                                    {menuItems.map((item, index) => (
-                                        <li key={index}>
-                                            <a
-                                                href={item.href}
-                                                onClick={e => handleSmoothScroll(e, item.href)}
-                                                className="text-muted-foreground hover:text-accent-foreground block duration-150 cursor-pointer"
-                                            >
-                                                <span>{item.name}</span>
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            {/* <div className="flex w-full items-center flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                <ModeToggle />
-                                <Button
-                                    asChild
-                                    variant="outline"
-                                    size="sm"
-                                    className={cn(isScrolled && 'lg:hidden')}>
-                                    <Link href="#">
-                                        <span>Login</span>
-                                    </Link>
-                                </Button>
-                                <Button
-                                    asChild
-                                    size="sm"
-                                    className={cn(isScrolled && 'lg:hidden')}>
-                                    <Link href="#">
-                                        <span>Sign Up</span>
-                                    </Link>
-                                </Button>
-                                <Button
-                                    asChild
-                                    size="sm"
-                                    className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
-                                    <Link href="#">
-                                        <span>Get Started</span>
-                                    </Link>
-                                </Button>
-                            </div> */}
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </header>
-    )
+            <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
+              <div className="lg:hidden">
+                <ul className="space-y-6 text-base">
+                  {menuItems.map((item, index) => (
+                    <li key={index}>
+                      <a
+                        href={item.href}
+                        onClick={(e) => handleSmoothScroll(e, item.href)}
+                        className="text-muted-foreground hover:text-accent-foreground block duration-150 cursor-pointer"
+                      >
+                        <span>{item.name}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="flex w-full items-center flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit ">
+                <Button asChild size="sm">
+                  <Link href="#">
+                    <span className="text-white">Get Started</span>
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
 }
 
-const Logo = ({ className, ...props }: React.SVGProps<SVGSVGElement> & { className?: string }) => {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            id="Layer_1"
-            data-name="Layer 1"
-            viewBox="0 0 1000 600"
-            className={cn('h-5 w-auto', className)}
-            {...props}
-        >
-            <defs>
-                <style>{".cls-1{fill:currentColor}"}</style>
-            </defs>
-            <path
-                d="M115.4 528.16c0-13.64 11.05-24.71 24.69-24.71s24.68 11.06 24.68 24.71-11.05 24.7-24.68 24.7-24.69-11.06-24.69-24.7ZM170.31 569.36l12.88 13.01a114.411 114.411 0 0 1-17.3 14.04c-3 2-6.91 1.96-9.9-.06-9.89-6.67-26.08-19.69-38.06-40.95 12.22 9.84 30.55 10.97 43.73.34l8.46 8.03c.49.99-1.9 2.57.2 5.58Z"
-                className="cls-1"
-            />
-            <path
-                d="M217.1 498.54c-.11 15.58-3.14 45.47-23.94 72.55l-12.34-12.24c-3.01-2.09-4.59.3-5.57-.19l-7.86-7.86c-.21-.46 3.51-5.58 4.06-6.7 8.93-18 1.18-40.15-17.25-48.12-3.34-1.45-6.73-2.16-10.27-2.92h-7.6c-14.91 1.45-28.29 14.11-30.96 28.84-1.98-9.5-2.51-17.99-2.49-24.78.01-4.02 2.7-7.54 6.58-8.58a185 185 0 0 1 101.28 1.34c3.82 1.14 6.39 4.67 6.36 8.66Z"
-                className="cls-1"
-            />
-            <path d="m288.41 542.99 17.85-25.12c.93-1.27 1.41-2.71 1.41-4.16 0-3.3-2.9-5.79-6.74-5.79-3.2 0-6.35 2.03-9.09 5.87l-12.47 17.15-12.78-17.65-.09-.11c-1.45-1.84-4.15-5.26-8.22-5.26-3.27 0-6.74 1.9-6.74 5.42 0 1.35.48 2.7 1.31 3.77l17.76 25.31-19.06 26.61c-1.1 1.47-1.71 3.18-1.71 4.83 0 3.09 2.88 5.51 6.55 5.51 4.81 0 8.16-4.33 9.26-5.75l14.07-19.15 13.9 19.42c1.03 1.38 4.18 5.57 8.7 5.57 3.51 0 6.36-2.43 6.36-5.42 0-2.05-1.01-3.66-1.88-4.81l-18.42-26.25ZM352.05 507.73h-22.5c-.49 0-3.03.03-4.58.62-1.97.72-3.32 2.36-3.92 4.74-.2.82-.31 1.75-.31 2.69v56.29c0 3.38 2.26 7.02 7.21 7.02s7.21-3.53 7.21-7.02v-18.21h16.89c16.8 0 24.62-7.58 24.62-23.87 0-14.78-8.28-22.27-24.62-22.27Zm.37 34.17h-17.27v-22.2h16.51c8.73 0 10.49 4.16 10.49 10.87 0 7.73-3.09 11.34-9.74 11.34ZM421.7 506.22c-25.85 0-37.42 18.51-37.42 36.86 0 9.96 3.28 19.06 9.22 25.63 6.7 7.4 16.45 11.32 28.2 11.32 25.85 0 37.42-18.56 37.42-36.95s-11.57-36.86-37.42-36.86Zm0 59.68c-11.21 0-23.2-5.99-23.2-22.82 0-11.08 6.09-22.91 23.2-22.91s23.1 11.84 23.1 22.91c0 16.83-11.93 22.82-23.1 22.82ZM497.7 535.32c-7.55-.97-15.6-2.47-15.6-8.14 0-3.64 4.77-7.57 12.47-7.57 4.76 0 8.97.15 12.24 1.95.97.52 1.85 1.13 2.7 1.72.34.23.66.46.98.67l.08.05c1.42.76 3.19 1.53 5.55 1.53 3.2 0 5.8-2.3 5.8-5.14 0-2.39-1.53-3.92-2.54-4.92-5.17-5.38-10.93-8.49-25.1-8.49-15.83 0-26.88 8.73-26.88 21.23 0 15.98 15.32 19.82 26.86 21.32 7.92.88 17 2.69 17 8.89 0 7.77-9.05 8.61-12.94 8.61-7.57 0-11.51-2.15-14.62-4.48-1.25-1.09-2.37-2.12-3.36-3.03l-.55-.5-.13-.1c-1.52-.98-3.06-1.85-5.15-1.85-3.93 0-6.36 3.2-6.36 6.17 0 2.39 1.54 4.47 2.89 6.02 7.84 8.87 16.58 10.69 27.29 10.69 16.93 0 27.44-8.35 27.44-21.8s-9.18-20.26-28.07-22.82ZM585.68 566.75h-33.64v-15.9h19.43c4.18 0 6.08-3.1 6.08-5.98s-1.9-5.98-6.08-5.98h-19.43v-18.82l32.23-.09c4.11 0 6.27-3.1 6.27-6.17s-2.15-6.08-6.27-6.08h-25.32c-1.81 0-3.66-.05-5.46-.09-1.84-.05-3.74-.1-5.65-.1-8.67 0-10.31 3.49-10.31 9.94s.02 13.46.05 20.22c.02 6.78.05 13.56.05 20.35 0 1.92-.05 3.9-.09 5.81-.05 1.93-.09 3.92-.09 5.86 0 7.61 2.04 9.47 10.41 9.47 6.31 0 12.62-.02 18.92-.05 6.31-.02 12.61-.05 18.92-.05 4.07 0 6.27-3.23 6.27-6.27s-2.15-6.08-6.27-6.08ZM651.01 507.73h-25.32c-1.76 0-3.59-.05-5.36-.09-1.82-.05-3.7-.1-5.56-.1-4.99 0-7.74.89-9.19 2.97-.69.99-1.09 2.19-1.21 3.69-.1 1.17-.1 2.7-.1 4.32 0 8.94.02 17.86.05 26.78.02 8.92.05 17.84.05 26.78 0 3.38 2.26 7.02 7.21 7.02s7.21-3.53 7.21-7.02v-21.22h19.43c4.18 0 6.08-3.1 6.08-5.98s-1.9-5.98-6.08-5.98h-19.43v-18.82l32.23-.09c4.11 0 6.27-3.1 6.27-6.17s-2.15-6.08-6.27-6.08ZM673.03 507.73c-5.02 0-7.3 3.64-7.3 7.02v57.23c0 3.54 2.26 7.11 7.3 7.11 4.73 0 7.21-3.58 7.21-7.11v-57.23c0-3.38-2.26-7.02-7.21-7.02ZM751.26 507.73c-4.98 0-7.21 3.52-7.21 7.02v43.33l-28.96-44.64c-2.35-3.47-6.55-5.71-10.71-5.71-5.53 0-8.05 4.03-8.05 7.77v56.57c0 3.38 2.26 7.02 7.21 7.02s7.21-3.53 7.21-7.02v-39.09l25.38 39.17c2.73 4.15 7.95 6.94 12.97 6.94 6.41 0 9.28-4.66 9.28-9.28v-55.07c0-3.49-2.2-7.02-7.11-7.02ZM798.98 507.73h-15.44c-9.04 0-10.5 2.82-10.5 9.56v50.17c0 .66-.01 1.27-.02 1.83-.02 1.05-.04 1.96.03 2.85.11 1.53.34 2.78 1.11 3.87 1.46 2.19 4.32 3.08 9.86 3.08h17.79c13.24 0 23.17-3.23 29.52-9.6 5.87-5.89 8.84-14.65 8.84-26.03 0-23.37-14.24-35.73-41.19-35.73ZM825 543.46c0 15.74-6.91 22.16-23.86 22.16h-13.69v-44.6h12c17.43 0 25.55 7.13 25.55 22.44ZM902.53 566.75h-33.65v-15.9h19.43c4.18 0 6.08-3.1 6.08-5.98s-1.9-5.98-6.08-5.98h-19.43v-18.82l32.23-.09c4.11 0 6.27-3.1 6.27-6.17s-2.15-6.08-6.27-6.08h-25.32c-1.81 0-3.66-.05-5.46-.09-1.84-.05-3.74-.1-5.65-.1-8.67 0-10.31 3.49-10.31 9.94s.02 13.46.05 20.22c.02 6.78.05 13.56.05 20.35 0 1.92-.05 3.9-.09 5.81-.05 1.93-.09 3.92-.09 5.86 0 7.61 2.04 9.47 10.41 9.47 6.31 0 12.62-.02 18.92-.05 6.31-.02 12.61-.05 18.92-.05 4.07 0 6.27-3.23 6.27-6.27s-2.15-6.08-6.27-6.08ZM975.09 569.3l-11.29-18.96c8.73-2.9 13.33-9.91 13.33-20.35 0-15.19-7.82-22.27-24.62-22.27h-18.26c-10.74 0-13.04.95-13.04 11.07v53.28c0 3.38 2.26 7.02 7.21 7.02s7.21-3.53 7.21-7.02v-19.9h12.56l12.61 20.99c.95 1.51 3.82 6.11 9.03 6.11 3.36 0 6.92-1.87 6.92-5.32 0-1.12-.19-1.93-.65-2.84-.27-.64-.62-1.18-1.01-1.81ZM962.62 530c0 7.34-2.76 10.21-9.83 10.21h-17.17V519.7h16.51c7.55 0 10.49 2.89 10.49 10.3Z" />
-        </svg>
-    )
-} 
+const Logo = ({}: //   className,
+//   ...props
+React.SVGProps<SVGSVGElement> & { className?: string }) => {
+  const { theme, resolvedTheme, systemTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      console.log("Theme values:", { theme, resolvedTheme, systemTheme });
+    }
+  }, [mounted, theme, resolvedTheme, systemTheme]);
+
+  if (!mounted) {
+    return <div className="h-8 w-24" />; // Placeholder while mounting
+  }
+
+  // Use dark theme logo for dark mode, light theme logo for light mode
+  const isDark = resolvedTheme === "dark";
+
+  return (
+    <Image
+      src={isDark ? "/logo-darktheme.svg" : "/logo-lighttheme.svg"}
+      alt="Logo"
+      width={96}
+      height={32}
+      className="h-8 w-24" // Navbar
+    />
+  );
+};

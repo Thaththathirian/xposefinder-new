@@ -228,7 +228,7 @@ const UseCaseCard = ({
         )}
         {title === "Enterprises" && svgicon && (
           <div
-            className="absolute top-2 right-2 size-20 md:size-20"
+            className="absolute top-2 right-2 size-18 md:size-20"
             style={{ transform: "scale(1)" }}
           >
             {svgicon}

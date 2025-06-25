@@ -93,35 +93,32 @@ CardFooter.displayName = "CardFooter";
 
 // --- Button ---
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-sm shadow-black/5 hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm shadow-black/5 hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background shadow-sm shadow-black/5 hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm shadow-black/5 hover:bg-secondary/80",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-lg px-3 text-xs",
-        lg: "h-10 rounded-lg px-8",
-        icon: "h-9 w-9",
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
       },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
     },
-  },
+  }
 );
 
-interface ButtonProps
+export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
@@ -219,9 +216,6 @@ const API_BASE = "https://api.xposefinder.com/api/demo";
 
 const BookingCalendar: React.FC = () => {
   const [availableDates, setAvailableDates] = useState<string[]>([]);
-  // const [allTimeSlots, setAllTimeSlots] = useState<string[]>([]);
-  // const [timezone, setTimezone] = useState<string>("");
-  // const [note, setNote] = useState<string>("");
   const [date, setDate] = useState<Date | undefined>();
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
@@ -245,9 +239,6 @@ const BookingCalendar: React.FC = () => {
       .then(res => res.json())
       .then(data => {
         setAvailableDates(data.availableDates || []);
-        // setAllTimeSlots(data.allTimeSlots || []);
-        // setTimezone(data.timezone || "");
-        // setNote(data.note || "");
         setLoadingDates(false);
       })
       .catch(() => {
@@ -315,47 +306,60 @@ const BookingCalendar: React.FC = () => {
 
   return (
     <div className={cn("flex flex-col items-center gap-4 p-4 rounded-lg")}>  
-      <Card className="gap-0 p-0 w-full max-w-2xl">
-        <CardContent className="relative p-0 md:pr-48">
-          <div className="p-6">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              defaultMonth={date}
-              disabled={d => !isDateAvailable(d)}
-              showOutsideDays={false}
-              className="bg-transparent p-0"
-              formatters={{
-                formatWeekdayName: (date: Date) => {
-                  return date.toLocaleString("en-US", { weekday: "short" });
-                },
-              }}
-            />
-            {loadingDates && <div className="text-center text-sm mt-2">Loading dates...</div>}
-            {error && <div className="text-center text-destructive text-sm mt-2">{error}</div>}
-          </div>
-          <div className="no-scrollbar inset-y-0 right-0 flex max-h-72 w-full scroll-pb-6 flex-col gap-4 overflow-y-auto border-t p-6 md:absolute md:max-h-none md:w-48 md:border-t-0 md:border-l">
-            <div className="grid gap-2">
-              {loadingSlots ? (
-                <div className="text-center text-sm">Loading slots...</div>
-              ) : (
-                availableSlots.map((time) => (
-                  <Button
-                    key={time}
-                    variant={selectedTime === time ? "default" : "outline"}
-                    onClick={() => setSelectedTime(time)}
-                    className="w-full shadow-none"
-                  >
-                    {time}
-                  </Button>
-                ))
-              )}
+      <Card className="gap-0 p-0 w-full max-w-4xl">
+        <CardContent className="relative p-0">
+          {/* Mobile First Layout */}
+          <div className="flex flex-col lg:flex-row">
+            {/* Calendar Section */}
+            <div className="flex-1 p-6 border-b lg:border-b-0 lg:border-r min-w-0">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                defaultMonth={date}
+                disabled={d => !isDateAvailable(d)}
+                showOutsideDays={false}
+                className="bg-transparent p-0 w-full mx-auto"
+                formatters={{
+                  formatWeekdayName: (date: Date) => {
+                    return date.toLocaleString("en-US", { weekday: "short" });
+                  },
+                }}
+              />
+              {loadingDates && <div className="text-center text-sm mt-2">Loading dates...</div>}
+              {error && <div className="text-center text-destructive text-sm mt-2">{error}</div>}
+            </div>
+            
+            {/* Time Slots Section */}
+            <div className="flex-none w-full lg:w-64 xl:w-72 p-6">
+              <div className="space-y-2">
+                <h3 className="font-medium text-sm text-muted-foreground mb-4">
+                  {date ? "Available Times" : "Select a date"}
+                </h3>
+                <div className="max-h-64 lg:max-h-80 overflow-y-auto space-y-2">
+                  {loadingSlots ? (
+                    <div className="text-center text-sm">Loading slots...</div>
+                  ) : (
+                    availableSlots.map((time) => (
+                      <Button
+                        key={time}
+                        variant={selectedTime === time ? "default" : "outline"}
+                        onClick={() => setSelectedTime(time)}
+                        className="w-full shadow-none text-sm"
+                        size="sm"
+                      >
+                        {time}
+                      </Button>
+                    ))
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4 border-t px-6 !py-5 md:flex-row">
-          <div className="text-sm">
+        
+        <CardFooter className="flex flex-col gap-4 border-t px-6 py-4 sm:flex-row sm:py-5">
+          <div className="text-sm flex-1 text-center sm:text-left">
             {date && selectedTime ? (
               <>
                 Your meeting is booked for{" "}
@@ -366,7 +370,7 @@ const BookingCalendar: React.FC = () => {
                     month: "long",
                   })}
                 </span>
-                at <span className="font-medium">{selectedTime}</span>.
+                {" "}at <span className="font-medium">{selectedTime}</span>.
               </>
             ) : (
               <>Select a date and time for your meeting.</>
@@ -374,7 +378,7 @@ const BookingCalendar: React.FC = () => {
           </div>
           <Button
             disabled={!date || !selectedTime}
-            className="w-full md:ml-auto md:w-auto"
+            className="w-full sm:w-auto sm:ml-auto"
             variant="outline"
             onClick={() => setShowForm(true)}
           >
@@ -386,7 +390,7 @@ const BookingCalendar: React.FC = () => {
       {/* Contact Form Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <Card className="w-full max-w-md">
+          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto">
             <CardHeader>
               <CardTitle>Contact Information</CardTitle>
               <CardDescription>
@@ -394,9 +398,9 @@ const BookingCalendar: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium">
-                  Name *
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium mb-1">
+                  Full Name *
                 </label>
                 <input
                   id="name"
@@ -404,27 +408,27 @@ const BookingCalendar: React.FC = () => {
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   className="w-full px-3 py-2 border border-input rounded-lg bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                  placeholder="Your full name"
+                  placeholder="John Doe"
                   required
                 />
               </div>
-              <div className="space-y-2">
-                <label htmlFor="company" className="text-sm font-medium">
+              <div>
+                <label htmlFor="companyName" className="block text-sm font-medium mb-1">
                   Company Name *
                 </label>
                 <input
-                  id="company"
+                  id="companyName"
                   type="text"
                   value={formData.companyName}
                   onChange={(e) => setFormData(prev => ({ ...prev, companyName: e.target.value }))}
                   className="w-full px-3 py-2 border border-input rounded-lg bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                  placeholder="Your company name"
+                  placeholder="Your Company"
                   required
                 />
               </div>
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium">
-                  Company Email *
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium mb-1">
+                  Email Address *
                 </label>
                 <input
                   id="email"
@@ -432,13 +436,13 @@ const BookingCalendar: React.FC = () => {
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                   className="w-full px-3 py-2 border border-input rounded-lg bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                  placeholder="your.email@company.com"
+                  placeholder="john@company.com"
                   required
                 />
               </div>
-              <div className="space-y-2">
-                <label htmlFor="description" className="text-sm font-medium">
-                  How can we help you? *
+              <div>
+                <label htmlFor="description" className="block text-sm font-medium mb-1">
+                  Description *
                 </label>
                 <textarea
                   id="description"
@@ -510,4 +514,4 @@ const BookingCalendar: React.FC = () => {
   );
 };
 
-export default BookingCalendar; 
+export default BookingCalendar;

@@ -241,7 +241,7 @@ export function ContactForm({ className }: ContactFormProps) {
                   key="form"
                   initial={{ opacity: 1 }}
                   exit={{ opacity: 0, y: -20 }}
-                  className="bg-card/50 backdrop-blur-xl rounded-2xl border border-border p-8 shadow-lg"
+                  className="bg-card/50 backdrop-blur-xl rounded-2xl border border-border md:p-8 shadow-lg"
                 >
                   <BookingCalendar />
                 </motion.div>

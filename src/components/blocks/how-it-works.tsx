@@ -26,8 +26,26 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4">
+    <section className="relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden">
+      {/* Background Effects - Same as ContactForm */}
+      <div className="absolute inset-0">
+        <div 
+          className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5"
+          style={{
+            backgroundSize: '400% 400%'
+          }}
+        />
+        
+        <div
+          className="absolute top-1/4 left-1/6 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
+        />
+        
+        <div
+          className="absolute bottom-1/4 right-1/6 w-48 h-48 bg-accent/10 rounded-full blur-3xl"
+        />
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight">
             <span className="text-foreground">How</span> <span className="text-primary">Xposefinder Works</span>
@@ -36,33 +54,33 @@ export function HowItWorks() {
             <span className="text-xl text-muted-foreground">Our powerful platform makes it easy to find and fix data exposures before they become problems.</span>
           </p>
         </div>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-12 mb-12">
-              {steps.map((step, index) => (
-                <div
-                  key={index}
-                  className="relative flex flex-col items-center justify-center border border-black/[0.2] dark:border-white/[0.2] max-w-xs w-full p-6 h-[26rem]  bg-transparent"
-                >
-                  {/* Corner icons */}
-                  <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
-                  <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
-                  <Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
-                  <Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
+        <div className="flex flex-col md:flex-row justify-center items-center gap-12 mb-12">
+          {steps.map((step, index) => (
+            <div
+              key={index}
+              className="relative flex flex-col items-center justify-center border border-black/[0.2] dark:border-white/[0.2] max-w-xs w-full p-6 h-[26rem] bg-transparent"
+            >
+              {/* Corner icons */}
+              <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
+              <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
+              <Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
+              <Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
 
-                  {/* Card title in EvervaultCard */}
-                  <EvervaultCard text={
-                    <div className="flex flex-col items-center justify-center gap-4 py-6">
-                      <div>{step.icon}</div>
-                      <h3 className="text-xl md:text-2xl font-bold text-center text-foreground">{step.title}</h3>
-                    </div>
-                  } />
-                  {/* Description */}
-                  <h2 className="dark:text-white text-black mt-2 text-center text-base font-light">
-                    {step.description}
-                  </h2>
+              {/* Card title in EvervaultCard */}
+              <EvervaultCard text={
+                <div className="flex flex-col items-center justify-center gap-4 py-6">
+                  <div>{step.icon}</div>
+                  <h3 className="text-xl md:text-2xl font-bold text-center text-foreground">{step.title}</h3>
                 </div>
-              ))}
+              } />
+              {/* Description */}
+              <h2 className="dark:text-white text-black mt-2 text-center text-base font-light">
+                {step.description}
+              </h2>
             </div>
+          ))}
+        </div>
       </div>
     </section>
   );
-} 
+}
