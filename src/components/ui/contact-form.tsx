@@ -149,8 +149,8 @@ export function ContactForm({ className }: ContactFormProps) {
   };
 
   return (
-    <section className={cn(
-      "relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden",
+    <section id="contact" className={cn(
+      "relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden scroll-mt-20",
       className
     )}>
       {/* Background Effects */}

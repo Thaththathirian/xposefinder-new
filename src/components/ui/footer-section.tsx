@@ -29,22 +29,36 @@ interface FooterProps {
   showThemeToggle?: boolean
 }
 
+function handleSmoothScroll(
+  e: React.MouseEvent<HTMLAnchorElement>,
+  href: string
+) {
+  if (href.startsWith("#")) {
+    e.preventDefault();
+    const el = document.querySelector(href);
+    if (el) {
+      // Get navbar height dynamically
+      const navbar = document.querySelector('nav');
+      const navbarHeight = navbar ? navbar.offsetHeight : 80;
+      const y = el.getBoundingClientRect().top + window.pageYOffset - navbarHeight; // 20px extra padding
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  }
+}
+
 function Footer({
-  companyName = "TechCorp",
-  logoText = "TechCorp",
+  companyName = "Xposefinder",
+  logoText = "Xposefinder",
   newsletterTitle = "Stay Connected",
   newsletterDescription = "Join our newsletter for the latest updates and exclusive offers.",
   quickLinks = [
-    { label: "Home", href: "#" },
-    { label: "About Us", href: "#" },
-    { label: "Services", href: "#" },
-    { label: "Products", href: "#" },
-    { label: "Contact", href: "#" },
+    { label: "Our Concept", href: "#how-xposefinder-works" },
+    { label: "Key Features", href: "#key-features" },
+    { label: "Use Cases", href: "#use-cases" },
+    { label: "FAQ", href: "#faq" },
+    { label: "Book a Demo", href: "#contact" },
   ],
   contactInfo = {
-    // address: "123 Innovation Street",
-    // city: "Tech City, TC 12345",
-    // phone: "(123) 456-7890",
     email: "contact@xposefinder.com",
   },
   socialLinks = [
@@ -102,24 +116,23 @@ function Footer({
               {newsletterDescription}
             </p>
             <form onSubmit={handleNewsletterSubmit} className="relative">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 className="pr-12 backdrop-blur-sm"
-                required
-              />
+                  required
+                />
               <Button
                 type="submit"
                 size="icon"
                 className="absolute right-1 top-1 h-8 w-8 rounded-full bg-primary text-primary-foreground transition-transform hover:scale-105"
               >
-                <Send className="h-4 w-4" />
-                <span className="sr-only">Subscribe</span>
-              </Button>
+                  <Send className="h-4 w-4" />
+                  <span className="sr-only">Subscribe</span>
+                </Button>
             </form>
-            <div className="absolute -right-4 top-0 h-24 w-24 rounded-full bg-primary/10 blur-2xl" />
           </div>
 
           {/* Quick Links Section */}
@@ -130,7 +143,8 @@ function Footer({
                 <a
                   key={index}
                   href={link.href}
-                  className="block text-sm text-muted-foreground transition-colors hover:text-primary hover:translate-x-1 transform duration-200"
+                  onClick={(e) => handleSmoothScroll(e, link.href)}
+                  className="block text-sm text-muted-foreground transition-colors hover:text-primary hover:translate-x-1 transform duration-200 cursor-pointer"
                 >
                   {link.label}
                 </a>
@@ -157,51 +171,51 @@ function Footer({
                 <Mail className="h-4 w-4 text-primary flex-shrink-0" />
                 <p className="text-sm text-muted-foreground">{contactInfo.email}</p>
               </div>
+              </div>
             </div>
-          </div>
 
-          {/* Social Media and Theme Toggle Section */}
+            {/* Social Media and Theme Toggle Section */}
           <div className="relative">
             <h3 className="mb-6 text-lg font-semibold">Follow Us</h3>
             <div className="mb-8 flex flex-wrap gap-3">
-              {socialLinks.map((social, index) => (
-                <TooltipProvider key={index}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                      <Button 
-                        variant="outline" 
-                        size="icon" 
-                        className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
-                        asChild
-                      >
-                        <a href={social.href} target="_blank" rel="noopener noreferrer">
-                          {getSocialIcon(social.platform)}
-                          <span className="sr-only">{social.platform}</span>
-                        </a>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                      <p>Follow us on {social.platform}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              ))}
-            </div>
-            
-            {showThemeToggle && (
-              <div className="flex items-center space-x-3 p-3 rounded-lg border bg-card">
-                <Sun className="h-4 w-4 text-muted-foreground" />
-              <Switch
-                id="dark-mode"
-                checked={isDarkMode}
-                onCheckedChange={setIsDarkMode}
-              />
-                <Moon className="h-4 w-4 text-muted-foreground" />
-                <Label htmlFor="dark-mode" className="text-sm font-medium">
-                  Dark Mode
-              </Label>
-            </div>
-            )}
+                {socialLinks.map((social, index) => (
+                  <TooltipProvider key={index}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          variant="outline" 
+                          size="icon" 
+                          className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+                          asChild
+                        >
+                          <a href={social.href} target="_blank" rel="noopener noreferrer">
+                            {getSocialIcon(social.platform)}
+                            <span className="sr-only">{social.platform}</span>
+                          </a>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Follow us on {social.platform}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                ))}
+              </div>
+              
+              {showThemeToggle && (
+                <div className="flex items-center space-x-3 p-3 rounded-lg border bg-card">
+                  <Sun className="h-4 w-4 text-muted-foreground" />
+                  <Switch
+                    id="dark-mode"
+                    checked={isDarkMode}
+                    onCheckedChange={setIsDarkMode}
+                  />
+                  <Moon className="h-4 w-4 text-muted-foreground" />
+                  <Label htmlFor="dark-mode" className="text-sm font-medium">
+                    Dark Mode
+                  </Label>
+                </div>
+              )}
           </div>
         </div>
 

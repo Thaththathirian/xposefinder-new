@@ -87,7 +87,7 @@ const features: BentoItem[] = [
 
 export function KeyFeatures() {
   return (
-    <section className="py-20">
+    <section id="key-features" className="py-20 scroll-mt-20">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight">

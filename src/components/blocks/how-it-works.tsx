@@ -26,7 +26,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden">
+    <section id="how-xposefinder-works"  className=" scroll-mt-20 relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden">
       {/* Background Effects - Same as ContactForm */}
       <div className="absolute inset-0">
         <div 

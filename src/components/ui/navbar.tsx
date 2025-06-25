@@ -11,10 +11,10 @@ import { useTheme } from "next-themes";
 
 const menuItems = [
   { name: "Our Concept", href: "#how-xposefinder-works" },
-  { name: "Features", href: "#features" },
-  { name: "Use cases", href: "#usecases" },
+  { name: "Key Features", href: "#key-features" },
+  { name: "Use Cases", href: "#use-cases" },
   { name: "FAQ", href: "#faq" },
-  { name: "Contact", href: "#contact" },
+  { name: "Book a Demo", href: "#contact" },
 ];
 
 function handleSmoothScroll(
@@ -25,7 +25,11 @@ function handleSmoothScroll(
     e.preventDefault();
     const el = document.querySelector(href);
     if (el) {
-      const y = el.getBoundingClientRect().top + window.pageYOffset - 80; // adjust for navbar height
+      // Get navbar height dynamically
+      const navbar = document.querySelector("nav");
+      const navbarHeight = navbar ? navbar.offsetHeight : 80;
+      const y =
+        el.getBoundingClientRect().top + window.pageYOffset - navbarHeight; // 20px extra padding
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   }
@@ -82,7 +86,7 @@ export function Navbar() {
                     <a
                       href={item.href}
                       onClick={(e) => handleSmoothScroll(e, item.href)}
-                      className="text-muted-foreground hover:text-accent-foreground block duration-150 cursor-pointer"
+                      className="block text-sm text-muted-foreground transition-colors hover:text-primary hover:translate-x-1 transform duration-200 cursor-pointer"
                     >
                       <span>{item.name}</span>
                     </a>
