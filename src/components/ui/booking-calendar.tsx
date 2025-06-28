@@ -306,12 +306,12 @@ const BookingCalendar: React.FC = () => {
 
   return (
     <div className={cn("flex flex-col items-center gap-4 p-4 rounded-lg")}>  
-      <Card className="gap-0 p-0 w-full max-w-4xl">
+      <Card className="gap-0 p-0 w-full max-w-4xl border border-border dark:border-white/20">
         <CardContent className="relative p-0">
           {/* Mobile First Layout */}
           <div className="flex flex-col lg:flex-row">
             {/* Calendar Section */}
-            <div className="flex-1 p-6 border-b lg:border-b-0 lg:border-r min-w-0">
+            <div className="flex-1 p-6 border-b lg:border-b-0 lg:border-r min-w-0 border-border dark:border-white/20">
               <Calendar
                 mode="single"
                 selected={date}
@@ -358,7 +358,7 @@ const BookingCalendar: React.FC = () => {
           </div>
         </CardContent>
         
-        <CardFooter className="flex flex-col gap-4 border-t px-6 py-4 sm:flex-row sm:py-5">
+        <CardFooter className="flex flex-col gap-4 border-t border-border dark:border-white/20 px-6 py-4 sm:flex-row sm:py-5">
           <div className="text-sm flex-1 text-center sm:text-left">
             {date && selectedTime ? (
               <>

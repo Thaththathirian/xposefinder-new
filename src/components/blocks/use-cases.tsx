@@ -11,7 +11,7 @@ import {
 import dynamic from "next/dynamic";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const CobeGlobe = dynamic(() => import("@/components/ui/cobe-globe"), {
   ssr: false,
@@ -19,55 +19,32 @@ const CobeGlobe = dynamic(() => import("@/components/ui/cobe-globe"), {
 
 const useCases = [
   {
-    icon: <ShieldHalf className="h-4 w-4" />,
+    icon: <ShieldHalf className="h-4 w-4 text-white" />,
     title: "Security Teams",
     description:
       "Get instant visibility into employee and corporate data leaks.",
     area: "md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]",
     svgicon: (
-      <svg
-        width="300"
-        height="300"
-        viewBox="0 0 166 207"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-full w-full text-[#6b57ff] opacity-40"
-        role="img"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M81.1997 201.287C121.561 189.779 141.763 166.328 151.535 137.046C161.36 107.603 160.93 71.9314 159.643 36.3965L85.0792 6.04283L9.36818 33.4106C6.67041 68.8662 4.82377 104.493 13.4719 134.303C22.0728 163.95 41.3275 188.185 81.1997 201.287ZM58.0237 102.978C57.0931 102.01 56.5852 100.711 56.6119 99.3684C56.6386 98.0255 57.1976 96.7483 58.166 95.8176C59.1344 94.887 60.4328 94.3791 61.7756 94.4058C63.1185 94.4325 64.3957 94.9915 65.3264 95.9599L77.8731 109.016L120.628 67.9257C121.597 66.995 122.895 66.4872 124.238 66.5139C125.581 66.5405 126.858 67.0996 127.789 68.068C128.719 69.0364 129.227 70.3348 129.201 71.6776C129.174 73.0204 128.615 74.2977 127.647 75.2283L81.2397 119.827C80.2713 120.757 78.9729 121.265 77.6301 121.239C76.2872 121.212 75.01 120.653 74.0793 119.685L58.0237 102.978Z"
-          fill="currentColor"
-        />
+      <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full text-[#6b57ff] opacity-40" role="img">
+        <path fillRule="evenodd" clipRule="evenodd" d="M147.203 10C202.832 43.6813 249.308 60.4656 289.606 56.1526C294.024 234.51 241.023 303.282 150.541 337.306C62.0659 301.692 8.66109 213.191 12.1386 46.7973C58.8358 48.3513 104.971 36.9317 147.203 10ZM114.893 148.434H118.144V139.221C118.144 129.448 122.42 120.187 128.087 113.363C133.782 106.51 141.885 102.118 150.507 102.118C159.129 102.118 167.234 106.51 172.928 113.363C178.595 120.187 182.87 129.448 182.87 139.221V148.434H186.121C188.947 148.434 190.443 149.929 190.443 151.757V210.866C190.443 212.694 188.947 214.188 186.121 214.188H114.893C112.065 214.188 110.571 212.694 110.571 210.866V151.757C110.569 149.929 112.065 148.434 114.893 148.434ZM146.779 183.562L141.194 196.952H158.817L153.496 183.433C157.605 181.349 160.046 177.152 160.046 172.618C160.046 166.006 155.118 161.078 150.506 161.078C145.893 161.078 140.967 166.006 140.967 172.618C140.967 177.255 143.529 181.527 146.779 183.562ZM128.436 148.434H172.577V139.221C172.577 132.116 169.979 125.398 166.405 120.713C162.858 116.057 157.354 113.407 150.506 113.407C143.659 113.407 138.153 116.057 134.608 120.713C131.032 125.398 128.436 132.116 128.436 139.221V148.434Z" fill="currentColor"/>
       </svg>
     ),
   },
   {
-    icon: <Gavel className="h-4 w-4" />,
+    icon: <Gavel className="h-4 w-4 text-white" />,
     title: "Compliance & Legal",
     description:
       "Demonstrate breach awareness and remediation actions for audits.",
     area: "md:[grid-area:1/7/2/13] xl:[grid-area:2/1/3/5]",
     svgicon: (
-      <svg
-        width="300"
-        height="300"
-        viewBox="0 0 200 200"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-full w-full text-[#6b57ff] opacity-40"
-        role="img"
-      >
-        <path
-          d="M195.918 165.213C195.792 166.329 195.367 167.39 194.687 168.285L182.272 184.218C181.939 184.634 181.551 185.004 181.119 185.317C180.229 186.01 179.164 186.444 178.042 186.572C177.816 186.572 177.6 186.615 177.374 186.615C175.926 186.61 174.526 186.102 173.412 185.179L81.1504 108.967L69.2037 124.294C71.0008 126.379 72.1601 128.936 72.5437 131.66C72.9272 134.384 72.5189 137.16 71.3673 139.659C70.2156 142.158 68.3692 144.274 66.0475 145.756C63.7259 147.237 61.0268 148.022 58.2713 148.016C55.0791 148.023 51.9771 146.96 49.463 144.996L9.5829 114.039C6.9116 111.981 5.05216 109.049 4.3313 105.759C3.61044 102.469 4.07428 99.0297 5.64132 96.0468C7.20836 93.0639 9.77833 90.7276 12.8997 89.4486C16.0211 88.1696 19.4941 88.0296 22.7087 89.0532L64.2013 35.8713C62.4222 33.014 61.7081 29.6224 62.1843 26.2918C62.6605 22.9613 64.2967 19.9046 66.8056 17.6583C69.3144 15.4119 72.5357 14.1195 75.9041 14.0079C79.2724 13.8962 82.5725 14.9725 85.2251 17.0477L125.105 48.0049C127.919 50.1884 129.82 53.3376 130.439 56.8414C131.058 60.3451 130.351 63.9535 128.456 66.9663C126.56 69.9791 123.611 72.1814 120.18 73.1459C116.749 74.1103 113.082 73.7681 109.89 72.1856L96.773 89.0186L193.491 159.509C194.16 159.999 194.724 160.617 195.15 161.328C195.575 162.038 195.855 162.827 195.97 163.646C196.023 164.168 196.005 164.695 195.918 165.213Z"
-          fill="currentColor"
-        />
+      <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full text-[#6b57ff] opacity-40" role="img">
+        <path d="M230 180C196.277 180 170 206.277 170 240C170 273.721 196.277 300 230 300C263.723 300 290 273.721 290 240C290 206.277 263.723 180 230 180ZM266.869 225.868L228.202 264.535C226.226 266.512 223.947 267 221.667 267C219.388 267 217.109 266.512 215.132 264.535L194.799 244.202C191.846 241.249 191.846 236.084 194.799 233.131C197.752 230.178 202.916 230.178 205.869 233.131L221.667 248.929L261.799 208.798C264.752 205.845 269.916 205.845 272.869 208.798C275.822 211.751 275.822 216.915 272.869 219.868Z" fill="currentColor"/>
+        <path d="M221.962 6H37.7063C22.5517 6 10.334 18.2177 10.334 33.3665V257.367C10.334 272.481 22.5517 284.666 37.7063 284.666H162.351C155.008 272.346 151.536 258.829 151.536 243.712C151.536 202.162 185.984 168.803 230.642 168.803C236.651 168.803 242.593 169.269 248.334 170.2V33.3665C248.334 18.2177 236.117 6 221.962 6ZM119.153 234.394H68.7489C64.9826 234.394 62.7382 232.158 62.7382 229.403C62.7382 226.647 64.9826 224.412 68.7489 224.412H119.153C122.919 224.412 125.164 226.647 125.164 229.403C125.164 232.158 122.919 234.394 119.153 234.394ZM119.153 193.776H68.7489C64.9826 193.776 62.7382 191.54 62.7382 188.785C62.7382 186.029 64.9826 183.794 68.7489 183.794H119.153C122.919 183.794 125.164 186.029 125.164 188.785C125.164 191.54 122.919 193.776 119.153 193.776ZM190.919 153.157H68.7489C64.9826 153.157 62.7382 150.922 62.7382 148.166C62.7382 145.411 64.9826 143.176 68.7489 143.176H190.919C194.685 143.176 196.93 145.411 196.93 148.166C196.93 150.922 194.685 153.157 190.919 153.157ZM190.919 112.539H68.7489C64.9826 112.539 62.7382 110.304 62.7382 107.548C62.7382 104.793 64.9826 102.557 68.7489 102.557H190.919C194.685 102.557 196.93 104.793 196.93 107.548C196.93 110.304 194.685 112.539 190.919 112.539ZM190.919 71.921H68.7489C64.9826 71.921 62.7382 69.6855 62.7382 66.9301C62.7382 64.1748 64.9826 61.9392 68.7489 61.9392H190.919C194.685 61.9392 196.93 64.1748 196.93 66.9301C196.93 69.6855 194.685 71.921 190.919 71.921Z" fill="currentColor"/>
       </svg>
     ),
   },
   {
-    icon: <Building className="h-4 w-4" />,
+    icon: <Globe className="h-4 w-4 text-white" />,
     title: "Global Organizations",
     description:
       "Manage data security across multiple regions and jurisdictions.",
@@ -90,7 +67,7 @@ const useCases = [
     ),
   },
   {
-    icon: <Users className="h-4 w-4" />,
+    icon: <Users className="h-4 w-4 text-white" />,
     title: "HR Departments",
     description: "Protect employee data and maintain workforce security.",
     area: "md:[grid-area:2/7/3/13] xl:[grid-area:1/8/2/13]",
@@ -114,7 +91,7 @@ const useCases = [
     ),
   },
   {
-    icon: <Globe className="h-4 w-4" />,
+    icon: <Building className="h-4 w-4 text-white" />,
     title: "Enterprises",
     description: "Monitor exposures affecting your domain and employee assets.",
     area: "md:[grid-area:3/1/4/13] xl:[grid-area:2/8/3/13]",
@@ -175,13 +152,13 @@ const UseCaseCard = ({
         >
           {/* Responsive Globe: smaller and more transparent on mobile */}
           <div className="block md:hidden">
-            <CobeGlobe width={500} height={320} />
+            <CobeGlobe width={500} height={320} globeColor={[0.42,0.34,0.97]} />
           </div>
           <div className="hidden md:block lg:hidden">
-            <CobeGlobe width={620} height={680} />
+            <CobeGlobe width={620} height={680} globeColor={[0.42,0.34,0.97]} />
           </div>
           <div className="hidden lg:block">
-            <CobeGlobe width={400} height={450} />
+            <CobeGlobe width={400} height={450} globeColor={[0.42,0.34,0.97]} />
           </div>
         </div>
         <div className="relative flex flex-1 flex-col justify-between gap-3">
@@ -203,42 +180,27 @@ const UseCaseCard = ({
     {title !== "Global Organizations" && (
       <div>
         {title === "Security Teams" && svgicon && (
-          <div
-            className="absolute top-2 right-2 size-20 md:size-20"
-            style={{ transform: "scale(1)" }}
-          >
+          <div className="absolute top-2 right-2 flex items-center justify-center size-20 md:size-24 overflow-visible">
             {svgicon}
           </div>
         )}
         {title === "Compliance & Legal" && svgicon && (
-          <div
-            className="absolute top-2 right-2 size-22 md:size-24"
-            style={{ transform: "scale(1) rotate(16deg)" }}
-          >
+          <div className="absolute top-2 right-2 flex items-center justify-center size-16 md:size-20">
             {svgicon}
           </div>
         )}
         {title === "HR Departments" && svgicon && (
-          <div
-            className="absolute top-2 right-2 size-22 md:size-24"
-            style={{ transform: "scale(1)" }}
-          >
+          <div className="absolute top-2 right-2 flex items-center justify-center size-16 md:size-20">
             {svgicon}
           </div>
         )}
         {title === "Enterprises" && svgicon && (
-          <div
-            className="absolute top-2 right-2 size-18 md:size-20"
-            style={{ transform: "scale(1)" }}
-          >
+          <div className="absolute top-2 right-2 flex items-center justify-center size-16 md:size-20">
             {svgicon}
           </div>
         )}
         {title === "Global Organizations" && svgicon && (
-          <div
-            className="absolute -top-8 -right-10 size-38"
-            style={{ transform: "scale(1) rotate(12deg)" }}
-          >
+          <div className="absolute -top-8 -right-10 size-38">
             {svgicon}
           </div>
         )}
@@ -261,9 +223,33 @@ const UseCaseCard = ({
 );
 
 export function UseCases() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  useEffect(() => {
+    setIsDesktop(window.innerWidth >= 1024);
+    setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
-    <section  id="use-cases" className="bg-muted/50 py-20 scroll-mt-20">
-      <div className="container mx-auto px-4">
+    <section id="use-cases" className="relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden scroll-mt-20">
+      {/* Background Effects - Only on desktop and if not reduced motion */}
+      {isDesktop && !reduceMotion && (
+        <div className="absolute inset-0">
+          <div
+            className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5"
+            style={{ backgroundSize: '400% 400%' }}
+          />
+          <div
+            className="absolute top-1/4 left-1/6 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
+          />
+          <div
+            className="absolute bottom-1/4 right-1/6 w-48 h-48 bg-accent/10 rounded-full blur-3xl"
+          />
+        </div>
+      )}
+      <div className="relative z-10 container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight">
             <span className="text-foreground">Use</span>{" "}

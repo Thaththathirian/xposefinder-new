@@ -28,8 +28,14 @@ function handleSmoothScroll(
       // Get navbar height dynamically
       const navbar = document.querySelector("nav");
       const navbarHeight = navbar ? navbar.offsetHeight : 80;
-      const y =
-        el.getBoundingClientRect().top + window.pageYOffset - navbarHeight; // 20px extra padding
+      let y;
+      if (window.innerWidth < 1024) {
+        // On mobile, scroll to the very top of the section
+        y = el.getBoundingClientRect().top + window.pageYOffset;
+      } else {
+        // On desktop, account for navbar height
+        y = el.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+      }
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   }
@@ -102,7 +108,7 @@ export function Navbar() {
                     <li key={index}>
                       <a
                         href={item.href}
-                        onClick={(e) => handleSmoothScroll(e, item.href)}
+                        onClick={(e) => { handleSmoothScroll(e, item.href); setMenuState(false); }}
                         className="text-muted-foreground hover:text-accent-foreground block duration-150 cursor-pointer"
                       >
                         <span>{item.name}</span>
@@ -113,9 +119,12 @@ export function Navbar() {
               </div>
               <div className="flex w-full items-center flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit ">
                 <Button asChild size="sm">
-                  <Link href="#">
+                  <a
+                    href="#contact"
+                    onClick={e => { handleSmoothScroll(e, '#contact'); if (window.innerWidth < 1024) setMenuState(false); }}
+                  >
                     <span className="text-white">Get Started</span>
-                  </Link>
+                  </a>
                 </Button>
               </div>
             </div>
@@ -153,9 +162,9 @@ React.SVGProps<SVGSVGElement> & { className?: string }) => {
     <Image
       src={isDark ? "/logo-darktheme.svg" : "/logo-lighttheme.svg"}
       alt="Logo"
-      width={96}
+      width={140}
       height={32}
-      className="h-8 w-24" // Navbar
+      className="h-8 w-35" // Navbar
     />
   );
 };

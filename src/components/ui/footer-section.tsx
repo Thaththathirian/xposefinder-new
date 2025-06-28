@@ -12,6 +12,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Facebook, Instagram, Linkedin, Moon, Send, Sun, Twitter, Mail, Phone, MapPin } from "lucide-react"
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 interface FooterProps {
   companyName?: string
@@ -62,23 +64,18 @@ function Footer({
     email: "contact@xposefinder.com",
   },
   socialLinks = [
-    { platform: "Facebook", href: "https://www.facebook.com/people/Xposefinder/61577905194709/" },
     { platform: "Twitter", href: "https://x.com/xposefinder" },
-    { platform: "Instagram", href: "https://www.instagram.com/xposefinder/" },
     { platform: "LinkedIn", href: "https://www.linkedin.com/company/XposeFinder" },
   ],
   showThemeToggle = true,
 }: FooterProps) {
-  const [isDarkMode, setIsDarkMode] = React.useState(true)
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [email, setEmail] = React.useState("")
+  const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-    }
-  }, [isDarkMode])
+    setMounted(true);
+  }, []);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -108,8 +105,23 @@ function Footer({
           {/* Logo and Newsletter Section */}
           <div className="relative lg:col-span-1">
             <div className="mb-6">
-              <h2 className="mb-2 text-2xl font-bold tracking-tight">{logoText}</h2>
-              <div className="h-1 w-12 bg-primary rounded-full"></div>
+              {mounted ? (
+                <Image
+                  src={resolvedTheme === "dark" ? "/logo-darktheme.svg" : "/logo-lighttheme.svg"}
+                  alt="Logo"
+                  width={140}
+                  height={32}
+                  priority
+                />
+              ) : (
+                <Image
+                  src="/logo-darktheme.svg"
+                  alt="Logo"
+                  width={140}
+                  height={32}
+                  priority
+                />
+              )}
             </div>
             <h3 className="mb-4 text-xl font-semibold">{newsletterTitle}</h3>
             <p className="mb-6 text-muted-foreground text-sm leading-relaxed">
@@ -127,7 +139,7 @@ function Footer({
               <Button
                 type="submit"
                 size="icon"
-                className="absolute right-1 top-1 h-8 w-8 rounded-full bg-primary text-primary-foreground transition-transform hover:scale-105"
+                className="absolute right-1 top-1 h-8 w-8 rounded-full bg-primary text-white transition-transform hover:scale-105"
               >
                   <Send className="h-4 w-4" />
                   <span className="sr-only">Subscribe</span>
@@ -152,32 +164,18 @@ function Footer({
             </nav>
           </div>
 
-          {/* Contact Section */}
-          <div>
-            <h3 className="mb-6 text-lg font-semibold">Contact Us</h3>
-            <div className="space-y-4">
-              {/* <div className="flex items-start space-x-3">
-                <MapPin className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
-                <div className="text-sm text-muted-foreground">
-                  <p>{contactInfo.address}</p>
-                  <p>{contactInfo.city}</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                <p className="text-sm text-muted-foreground">{contactInfo.phone}</p>
-              </div> */}
+          {/* Contact Us & Follow Us Combined Section */}
+          <div className="flex flex-col gap-8">
+            <div>
+              <h3 className="mb-6 text-lg font-semibold">Contact Us</h3>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-primary flex-shrink-0" />
                 <p className="text-sm text-muted-foreground">{contactInfo.email}</p>
               </div>
-              </div>
             </div>
-
-            {/* Social Media and Theme Toggle Section */}
-          <div className="relative">
-            <h3 className="mb-6 text-lg font-semibold">Follow Us</h3>
-            <div className="mb-8 flex flex-wrap gap-3">
+            <div>
+              <h3 className="mb-6 text-lg font-semibold">Follow Us</h3>
+              <div className="mb-8 flex flex-wrap gap-3">
                 {socialLinks.map((social, index) => (
                   <TooltipProvider key={index}>
                     <Tooltip>
@@ -201,22 +199,26 @@ function Footer({
                   </TooltipProvider>
                 ))}
               </div>
-              
-              {showThemeToggle && (
+            </div>
+          </div>
+
+          {/* Theme Toggle Section */}
+          {showThemeToggle && (
+            <div className="flex flex-col items-start">
+              <h3 className="mb-2 text-lg font-semibold">Theme</h3>
+              {mounted && (
                 <div className="flex items-center space-x-3 p-3 rounded-lg border bg-card">
                   <Sun className="h-4 w-4 text-muted-foreground" />
                   <Switch
                     id="dark-mode"
-                    checked={isDarkMode}
-                    onCheckedChange={setIsDarkMode}
+                    checked={resolvedTheme === "dark"}
+                    onCheckedChange={checked => setTheme(checked ? "dark" : "light")}
                   />
                   <Moon className="h-4 w-4 text-muted-foreground" />
-                  <Label htmlFor="dark-mode" className="text-sm font-medium">
-                    Dark Mode
-                  </Label>
                 </div>
               )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Bottom Section */}
@@ -225,13 +227,13 @@ function Footer({
             © {new Date().getFullYear()} {companyName}. All rights reserved.
           </p>
           <nav className="flex flex-wrap gap-6 text-sm">
-            <a href="#" className="text-muted-foreground transition-colors hover:text-primary">
+            <a href="/privacy-policy" className="text-muted-foreground transition-colors hover:text-primary">
               Privacy Policy
             </a>
-            <a href="#" className="text-muted-foreground transition-colors hover:text-primary">
-              Terms of Service
+            <a href="/terms-and-conditions" className="text-muted-foreground transition-colors hover:text-primary">
+              Terms and Conditions
             </a>
-            <a href="#" className="text-muted-foreground transition-colors hover:text-primary">
+            <a href="/cookie-settings" className="text-muted-foreground transition-colors hover:text-primary">
               Cookie Settings
             </a>
           </nav>

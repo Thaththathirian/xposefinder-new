@@ -2,6 +2,7 @@
 
 import { ScanSearch, ShieldAlert, Wrench } from "lucide-react";
 import { EvervaultCard, Icon } from "@/components/ui/evervault-card";
+import { useEffect, useState } from "react";
 
 const steps = [
   {
@@ -25,26 +26,32 @@ const steps = [
 ];
 
 export function HowItWorks() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  useEffect(() => {
+    setIsDesktop(window.innerWidth >= 1024);
+    setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <section id="how-xposefinder-works"  className=" scroll-mt-20 relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden">
-      {/* Background Effects - Same as ContactForm */}
-      <div className="absolute inset-0">
-        <div 
-          className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5"
-          style={{
-            backgroundSize: '400% 400%'
-          }}
-        />
-        
-        <div
-          className="absolute top-1/4 left-1/6 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
-        />
-        
-        <div
-          className="absolute bottom-1/4 right-1/6 w-48 h-48 bg-accent/10 rounded-full blur-3xl"
-        />
-      </div>
-
+      {/* Background Effects - Only on desktop and if not reduced motion */}
+      {isDesktop && !reduceMotion && (
+        <div className="absolute inset-0">
+          <div 
+            className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5"
+            style={{ backgroundSize: '400% 400%' }}
+          />
+          <div
+            className="absolute top-1/4 left-1/6 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
+          />
+          <div
+            className="absolute bottom-1/4 right-1/6 w-48 h-48 bg-accent/10 rounded-full blur-3xl"
+          />
+        </div>
+      )}
       <div className="relative z-10 container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight">

@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { AnimatedGroup } from '@/components/ui/animated-group'
-import { BeamsBackground } from '../ui/beams-background'
+import dynamic from 'next/dynamic'
+import { useEffect, useState as useReactState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { CheckCircle } from 'lucide-react'
@@ -26,12 +27,24 @@ const transitionVariants = {
     },
 }
 
+const BeamsBackground = dynamic(() => import('../ui/beams-background').then(m => m.BeamsBackground), { ssr: false });
+
 export function HeroSection() {
     const [showEmailModal, setShowEmailModal] = useState(false);
     const [email, setEmail] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [response, setResponse] = useState<string|null>(null);
     const [error, setError] = useState<string|null>(null);
+    const [isDesktop, setIsDesktop] = useReactState(false);
+    const [reduceMotion, setReduceMotion] = useReactState(false);
+
+    useEffect(() => {
+        setIsDesktop(window.innerWidth >= 1024);
+        setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleEmailSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -61,7 +74,7 @@ export function HeroSection() {
 
     return (
         <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-            <BeamsBackground />
+            {isDesktop && !reduceMotion && <BeamsBackground />}
             <div
                 aria-hidden
                 className="z-[2] pointer-events-none absolute inset-0 isolate hidden contain-strict opacity-50 lg:block"
@@ -121,13 +134,16 @@ export function HeroSection() {
                                         size="lg"
                                         variant="ghost"
                                 className="h-10.5 rounded-xl px-5"
-                                asChild
+                                onClick={() => {
+                                    const el = document.querySelector('#contact');
+                                    if (el) {
+                                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    }
+                                }}
                             >
-                                        <Link href="/get-in-touch">
-                                    <span className="text-nowrap">
-                                        Schedule a Call
-                                    </span>
-                                        </Link>
+                                        <span className="text-nowrap hover:text-white">
+                                            Schedule a Call
+                                        </span>
                                     </Button>
                                 </AnimatedGroup>
                             </div>
@@ -146,30 +162,21 @@ export function HeroSection() {
                                 ...transitionVariants,
                     }}
                 >
-                            <div className="relative -mr-56 mt-8 overflow-hidden px-2 sm:mr-0 sm:mt-12 md:mt-20">
+                            <div className="relative mt-8 overflow-hidden px-2 sm:mt-12 md:mt-20 flex justify-center">
                                 <div
                                     aria-hidden
                                     className="bg-gradient-to-b to-background absolute inset-0 z-10 from-transparent from-35%"
                                 />
-                                <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-6xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1">
-                            <Image
-                                        className="bg-background aspect-15/7 relative  rounded-2xl "
+                                <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl overflow-hidden rounded-2xl border p-2 sm:p-4 shadow-lg shadow-zinc-950/15 ring-1">
+                                    <Image
+                                        className="bg-background aspect-[15/7] w-full h-auto rounded-2xl object-cover"
                                         src="./cover.png"
                                         alt="app screen"
-                                width={2000}
-                                height={1440}
-                                priority
-                                unoptimized
+                                        width={2000}
+                                        height={1440}
+                                        priority
+                                        loading="eager"
                                     />
-                            {/* <Image
-                                        className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
-                                        src="https://tailark.com/_next/image?url=%2Fmail2-light.png&w=3840&q=75"
-                                        alt="app screen"
-                                width={2700}
-                                height={1440}
-                                priority
-                                unoptimized
-                                    /> */}
                                 </div>
                             </div>
                         </AnimatedGroup>

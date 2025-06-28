@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { Button } from "@/components/ui/button";
 // import { Input } from "@/components/ui/input";
 // import { Label } from "@/components/ui/label";
@@ -128,26 +127,6 @@ export function ContactForm({ className }: ContactFormProps) {
     // setErrors({});
   };
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.6, ease: easeInOut }
-    }
-  };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
-
   return (
     <section id="contact" className={cn(
       "relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden scroll-mt-20",
@@ -155,139 +134,83 @@ export function ContactForm({ className }: ContactFormProps) {
     )}>
       {/* Background Effects */}
       <div className="absolute inset-0">
-        <motion.div 
+        <div 
           className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5"
-          animate={{
-            backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          style={{
-            backgroundSize: '400% 400%'
-          }}
         />
-        
-        <motion.div
+        <div
           className="absolute top-1/4 left-1/6 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, 50, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
         />
-        
-        <motion.div
+        <div
           className="absolute bottom-1/4 right-1/6 w-48 h-48 bg-accent/10 rounded-full blur-3xl"
-          animate={{
-            x: [0, -80, 0],
-            y: [0, -40, 0],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
         />
       </div>
 
-      <motion.div 
+      <div 
         className="relative z-10 max-w-6xl mx-auto px-6"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
       >
         {/* Header */}
-        <motion.div 
+        <div 
           className="text-center mb-16"
-          variants={fadeInUp}
         >
-          <motion.h1 
+          <h1 
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight"
-            variants={fadeInUp}
           >
             <span className="text-foreground">Book a </span>
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Demo
             </span>
-          </motion.h1>
-          
-          <motion.p 
+          </h1>
+          <p 
             className="text-xl text-muted-foreground max-w-2xl mx-auto"
-            variants={fadeInUp}
           >
             Ready to start your project? Send us a message and we&apos;ll get back to you within 24 hours.
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Contact Form */}
-          <motion.div 
+          <div 
             className="lg:col-span-2"
-            variants={fadeInUp}
           >
-            <AnimatePresence mode="wait">
-              {status !== "success" ? (
-                <motion.div
-                  key="form"
-                  initial={{ opacity: 1 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="bg-card/50 backdrop-blur-xl rounded-2xl border border-border md:p-8 shadow-lg"
+            {status !== "success" ? (
+              <div
+                className="bg-card/50 backdrop-blur-xl rounded-2xl border border-border dark:border-white/20 bg-background dark:bg-[#181825] md:p-8 shadow-lg"
+              >
+                <BookingCalendar />
+              </div>
+            ) : (
+              <div
+                className="bg-card/50 backdrop-blur-xl rounded-2xl border border-border p-12 text-center shadow-lg"
+              >
+                <div
+                  className="w-16 h-16 rounded-full bg-green-500/20 border border-green-400/30 flex items-center justify-center mx-auto mb-6"
                 >
-                  <BookingCalendar />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="bg-card/50 backdrop-blur-xl rounded-2xl border border-border p-12 text-center shadow-lg"
+                  <CheckCircle className="w-8 h-8 text-green-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-foreground mb-4">Message Sent!</h3>
+                <p className="text-muted-foreground text-lg mb-6">
+                  {submitMessage}
+                </p>
+                <Button
+                  onClick={resetForm}
+                  variant="outline"
+                  className="px-6"
                 >
-                  <motion.div
-                    className="w-16 h-16 rounded-full bg-green-500/20 border border-green-400/30 flex items-center justify-center mx-auto mb-6"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                  >
-                    <CheckCircle className="w-8 h-8 text-green-500" />
-                  </motion.div>
-                  <h3 className="text-2xl font-bold text-foreground mb-4">Message Sent!</h3>
-                  <p className="text-muted-foreground text-lg mb-6">
-                    {submitMessage}
-                  </p>
-                  <Button
-                    onClick={resetForm}
-                    variant="outline"
-                    className="px-6"
-                  >
-                    Send Another Message
-                  </Button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
+                  Send Another Message
+                </Button>
+              </div>
+            )}
+          </div>
 
           {/* Contact Info */}
-          <motion.div 
+          <div 
             className="space-y-6"
-            variants={fadeInUp}
           >
             <div className="bg-card/50 backdrop-blur-xl rounded-2xl border border-border p-6 shadow-lg">
               <h3 className="text-xl font-semibold text-foreground mb-4">Contact Information</h3>
-              
               <div className="space-y-4">
-                <motion.div 
+                <div 
                   className="flex items-center gap-3 p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-colors"
-                  whileHover={{ scale: 1.02 }}
                 >
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Mail className="w-5 h-5 text-primary" />
@@ -296,11 +219,10 @@ export function ContactForm({ className }: ContactFormProps) {
                     <p className="text-sm text-muted-foreground">Email</p>
                     <p className="text-foreground font-medium">contact@xposefinder.com</p>
                   </div>
-                </motion.div>
+                </div>
 
-                {/* <motion.div 
+                {/* <div 
                   className="flex items-center gap-3 p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-colors"
-                  whileHover={{ scale: 1.02 }}
                 >
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Phone className="w-5 h-5 text-primary" />
@@ -309,7 +231,7 @@ export function ContactForm({ className }: ContactFormProps) {
                     <p className="text-sm text-muted-foreground">Phone</p>
                     <p className="text-foreground font-medium">+1 (555) 123-4567</p>
                   </div>
-                </motion.div> */}
+                </div> */}
               </div>
             </div>
 
@@ -320,9 +242,9 @@ export function ContactForm({ className }: ContactFormProps) {
                 For urgent matters, please call us directly.
               </p>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 } 
