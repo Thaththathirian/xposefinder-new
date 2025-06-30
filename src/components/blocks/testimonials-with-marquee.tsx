@@ -1,5 +1,8 @@
+"use client";
+
 import { cn } from "@/lib/utils"
 import { TestimonialCard, TestimonialAuthor } from "@/components/ui/testimonial-card"
+import { useEffect, useState } from "react";
 
 interface TestimonialsSectionProps {
   title: string
@@ -18,6 +21,21 @@ export function TestimonialsSection({
   testimonials,
   className 
 }: TestimonialsSectionProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Immediate loading to prevent flashing
+    setIsLoaded(true);
+  }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="py-20 flex items-center justify-center">
+        <div className="animate-pulse bg-muted/20 rounded-lg w-full max-w-6xl h-96 mx-4"></div>
+      </div>
+    );
+  }
+
   return (
     <section className={cn(
       "bg-background text-foreground",

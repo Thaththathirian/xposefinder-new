@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
+// import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { AnimatedGroup } from '@/components/ui/animated-group'
 import dynamic from 'next/dynamic'
@@ -27,7 +27,12 @@ const transitionVariants = {
     },
 }
 
-const BeamsBackground = dynamic(() => import('../ui/beams-background').then(m => m.BeamsBackground), { ssr: false });
+// Load BeamsBackground with higher priority and better loading state
+const BeamsBackground = dynamic(() => 
+    import('../ui/beams-background').then(m => m.BeamsBackground), { 
+    ssr: false,
+    loading: () => <div className="absolute inset-0 bg-gradient-to-br from-background/50 to-background/80" />
+});
 
 export function HeroSection() {
     const [showEmailModal, setShowEmailModal] = useState(false);
@@ -37,8 +42,12 @@ export function HeroSection() {
     const [error, setError] = useState<string|null>(null);
     const [isDesktop, setIsDesktop] = useReactState(false);
     const [reduceMotion, setReduceMotion] = useReactState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
+        // Set component as loaded immediately to prevent flashing
+        setIsLoaded(true);
+        
         setIsDesktop(window.innerWidth >= 1024);
         setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
         const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
@@ -71,6 +80,18 @@ export function HeroSection() {
             setSubmitting(false);
         }
     };
+
+    // Show loading state briefly if not loaded
+    if (!isLoaded) {
+        return (
+            <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
+                    <p className="text-muted-foreground">Loading...</p>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section className="relative flex min-h-screen items-center justify-center overflow-hidden">

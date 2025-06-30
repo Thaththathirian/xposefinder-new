@@ -28,15 +28,29 @@ const steps = [
 export function HowItWorks() {
   const [isDesktop, setIsDesktop] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
+    // Immediate loading state to prevent flashing
+    setIsLoaded(true);
+    
     setIsDesktop(window.innerWidth >= 1024);
     setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="py-20 flex items-center justify-center">
+        <div className="animate-pulse bg-muted/20 rounded-lg w-full max-w-6xl h-96 mx-4"></div>
+      </div>
+    );
+  }
+
   return (
-    <section id="how-xposefinder-works"  className=" scroll-mt-20 relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden">
+    <section id="how-xposefinder-works" className="scroll-mt-20 relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden">
       {/* Background Effects - Only on desktop and if not reduced motion */}
       {isDesktop && !reduceMotion && (
         <div className="absolute inset-0">

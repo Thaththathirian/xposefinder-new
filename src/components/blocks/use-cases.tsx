@@ -13,8 +13,23 @@ import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 
+// Load CobeGlobe with better loading state
 const CobeGlobe = dynamic(() => import("@/components/ui/cobe-globe"), {
   ssr: false,
+  loading: () => (
+    <div className="absolute right-0 -bottom-10 md:-bottom-10" 
+         style={{
+           width: "100%",
+           maxWidth: "620px", 
+           height: "320px",
+           transform: "translateX(50%)",
+           pointerEvents: "none",
+           zIndex: 0,
+         }}
+    >
+      <div className="w-full h-full bg-gradient-to-r from-primary/10 to-accent/10 rounded-full animate-pulse" />
+    </div>
+  )
 });
 
 const useCases = [
@@ -225,13 +240,27 @@ const UseCaseCard = ({
 export function UseCases() {
   const [isDesktop, setIsDesktop] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
+    // Immediate loading to prevent flashing
+    setIsLoaded(true);
+    
     setIsDesktop(window.innerWidth >= 1024);
     setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="py-20 flex items-center justify-center">
+        <div className="animate-pulse bg-muted/20 rounded-lg w-full max-w-6xl h-96 mx-4"></div>
+      </div>
+    );
+  }
+
   return (
     <section id="use-cases" className="relative py-20 bg-gradient-to-br from-background via-secondary/20 to-background overflow-hidden scroll-mt-20">
       {/* Background Effects - Only on desktop and if not reduced motion */}

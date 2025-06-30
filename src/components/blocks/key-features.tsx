@@ -89,13 +89,27 @@ const features: BentoItem[] = [
 export function KeyFeatures() {
   const [isDesktop, setIsDesktop] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
+    // Immediate loading to prevent flashing
+    setIsLoaded(true);
+    
     setIsDesktop(window.innerWidth >= 1024);
     setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="py-20 flex items-center justify-center">
+        <div className="animate-pulse bg-muted/20 rounded-lg w-full max-w-6xl h-96 mx-4"></div>
+      </div>
+    );
+  }
+
   return (
     <section id="key-features" className="py-20 scroll-mt-20">
       <div className="container mx-auto px-4">
@@ -107,10 +121,10 @@ export function KeyFeatures() {
             <span className="text-xl text-muted-foreground">Powerful tools to help you protect your data and respond to breaches effectively.</span>
           </p>
         </div>
-        {/* If you have any background effects, render them only on desktop and if not reduced motion */}
+        {/* Background effects only on desktop and if not reduced motion */}
         {/* {isDesktop && !reduceMotion && <BackgroundEffectComponent />} */}
         <BentoGrid items={features} />
       </div>
     </section>
   );
-} 
+}
